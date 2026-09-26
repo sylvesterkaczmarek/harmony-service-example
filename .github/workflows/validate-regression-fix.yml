@@ -1,0 +1,44 @@
+name: Validate regression fix
+on:
+  push:
+    branches: [validation/independent-antimeridian-crops-20260926]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.12"]
+    env:
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: 58d383fd3a45bf18a8b030b2aaa3b71b332af816
+          path: work
+          fetch-depth: 2
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install validation dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libgdal-dev gdal-bin
+          python -m pip install 'numpy<2' setuptools wheel
+          python -m pip install --no-build-isolation "GDAL==$(gdal-config --version)"
+          python -m pip install 'git+https://github.com/nasa/harmony-service-lib-py.git@e663ffff975ebf321115465115d08f0dd4c89f81' pytest pytest-cov flake8
+      - name: Verify exact source and original failures
+        run: python validation/verify.py work evidence
+      - name: Preserve validation evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: validation-${{ matrix.python }}
+          path: evidence/

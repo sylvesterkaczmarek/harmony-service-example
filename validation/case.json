@@ -1,0 +1,12 @@
+{
+  "base": "2bbb604199e907653df6611474e44bafe5f627c8",
+  "branch": "fix/independent-antimeridian-crops-20260926",
+  "production": "harmony_service_example/transform.py",
+  "test": "tests/test_subset.py",
+  "total": 44,
+  "failures": 5,
+  "title": "Build independent GDAL commands for antimeridian crops",
+  "source": "58d383fd3a45bf18a8b030b2aaa3b71b332af816",
+  "repo": "harmony-service-example",
+  "module": "harmony_service_example"
+}
