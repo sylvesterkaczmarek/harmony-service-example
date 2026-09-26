@@ -6,7 +6,7 @@
   "total": 44,
   "failures": 5,
   "title": "Build independent GDAL commands for antimeridian crops",
-  "source": "58d383fd3a45bf18a8b030b2aaa3b71b332af816",
+  "source": "450d0401f28383d3722370a631131ff242a25411",
   "repo": "harmony-service-example",
   "module": "harmony_service_example"
 }

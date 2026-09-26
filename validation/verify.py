@@ -52,6 +52,7 @@ print('TESTED SOURCE', actual, flush=True)
 run('versions', [python, '-m', 'pip', 'freeze'])
 run('dependencies', [python, '-m', 'pip', 'check'])
 run('new-test-lint', [python, '-m', 'flake8', config['test']])
+run('production-lint', [python, '-m', 'flake8', config['production']])
 run('patch-check', ['git', 'diff', '--check', config['base'], 'HEAD'])
 tests('fixed', coverage=True)
 production = source / config['production']
